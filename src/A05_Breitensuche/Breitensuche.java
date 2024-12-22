@@ -1,6 +1,9 @@
 package A05_Breitensuche;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class Breitensuche extends BaseTree<Integer> {
 
@@ -10,25 +13,56 @@ public class Breitensuche extends BaseTree<Integer> {
 	}
 
 	/**
-	 * Liefert Knoten des Baums ausgehend von Start in Reihenfolge der Breitensuche zurück
-	 * @param start Startknoten für Teilbaum
+	 * Liefert Knoten des Baums ausgehend von Start in Reihenfolge der Breitensuche zur?ck
+	 * @param start Startknoten f?r Teilbaum
 	 * @return Liste der Knoten in Breitenfolge
 	 */
 	public List<Integer> getBreadthFirstOrder(Node<Integer> start) {
 
-		return null;
+		List<Integer> result = new ArrayList<>();
+
+		Queue<Node<Integer>> queue = new ArrayDeque<>();
+		queue.add(start);
+
+		while (!queue.isEmpty()) {
+			Node<Integer> node = queue.poll();
+			if (node.getLeft() != null)
+				queue.add(node.getLeft());
+			if (node.getRight() != null)
+				queue.add(node.getRight());
+
+			result.add(node.getValue());
+		}
+
+		return result;
 	}
 
 	/**
-	 * Liefert Knoten des Baums ausgehend von Start in Reihenfolge der Breitensuche zurück,
+	 * Liefert Knoten des Baums ausgehend von Start in Reihenfolge der Breitensuche zur?ck,
 	 * allerdings nur jene Knoten, die in der angegebenen Ebene liegen (Start hat Ebene=1)
-	 * @param start Startknoten für Teilbaum
+	 * @param start Startknoten f?r Teilbaum
 	 * @param level Nur Knoten dieser Ebene ausgeben
 	 * @return Liste aller Knoten
 	 */
 	public List<Integer> getBreadthFirstOrderForLevel(Node<Integer> start, int level) {
 
-		return null;
+		List<Integer> result = new ArrayList<>();
+
+		Queue<NodeWithLevel> queue = new ArrayDeque<>();
+		queue.add(new NodeWithLevel(start, 1));
+
+		while (!queue.isEmpty()) {
+			NodeWithLevel node = queue.poll();
+			if (node.getNode().getLeft() != null && node.getLevel() + 1 <= level )
+				queue.add(new NodeWithLevel(node.getNode().getLeft(), node.getLevel() + 1));
+			if (node.getNode().getRight() != null && node.getLevel() + 1 <= level)
+				queue.add(new NodeWithLevel(node.getNode().getRight(), node.getLevel() + 1));
+
+			if (node.getLevel() == level)
+				result.add(node.getNode().getValue());
+		}
+
+		return result;
 	}
 
 }

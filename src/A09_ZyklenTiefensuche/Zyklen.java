@@ -37,25 +37,7 @@ public class Zyklen {
 	}
 
 	private List<Integer> checkForCycle(Integer v, Integer pred) {
-		if (follow.containsKey(v)) {
-			return foundCycle(v);
-		}
-		if (visited[v]) {				// Knoten bereits besucht
-			return null;
-		}
-		visited[v] = true;
-		follow.put(pred, v);			// Nachfolger in Liste einf?gen
-		List<WeightedEdge> lwe = g.getEdges(v);
-		for (WeightedEdge we : lwe) {	// alle Kanten durchgehen
-			if (we.to_vertex == pred && !g.isDirected()) {	// ungerichteter Graph: direkter Weg zur?ck
-				continue;
-			}
-			List<Integer> res = checkForCycle(we.to_vertex, v);	// Rekursion
-			if (res != null) {	// Zyklus gefunden
-				return res;
-			}
-		}
-		follow.remove(pred);	// Backtracking: Vorg?nger wieder entfernen
+
 		return null;			// kein Zyklus gefunden
 	}
 
@@ -66,12 +48,7 @@ public class Zyklen {
 	 */
 	private List<Integer> foundCycle(Integer start) {
 		List<Integer> cycle = new ArrayList<Integer>();
-		Integer cur = start;
-		do {
-			cycle.add(cur);
-			cur = follow.get(cur);
-		} while (cur != null);
-		cycle.add(start);
+
 		return cycle;
 	}
 

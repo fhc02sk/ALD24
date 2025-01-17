@@ -7,9 +7,10 @@ import A10_DijkstraPQShortestPath.WeightedEdge;
 
 import java.util.List;
 
+
 public class ConnectedComponents {
 
-	private boolean[] visited;
+	private int[] visited;
 
 	/**
 	 * Retourniert die Anzahl der zusammenhaengenden Komponenten eines Graphen
@@ -17,31 +18,39 @@ public class ConnectedComponents {
 	 * @return Anzahl der Komponenten
 	 */
 	public int getNumberOfComponents(Graph g) {
-		int size = g.numVertices();
-		visited = new boolean[size];
+		int size = g.numVertices(); // Anzahl Knoten im Graphen
+		visited = new int[size];
+
+		// Initialisierung
+		for (int i = 0; i < size; i++)
+			visited[i] = -1;
 
 		int counter = 0;
 		for (int i = 0; i < size; i++) {
-			if (visited[i] == true)
+			if (visited[i] != -1)
 				continue;
 
 			counter++;
-			deepSearch(g, i);
+			deepSearch(g, i, counter);
 		}
 
 		return counter;
 	}
 
-	private void deepSearch(Graph g, int i) {
-
-		if (visited[i] == true)
+	private void deepSearch(Graph g, int i, int comp) {
+		if (visited[i] != -1)
 			return;
 
-		visited[i] = true;
-		List<WeightedEdge> listEdges = g.getEdges(i);
-		for(WeightedEdge we : listEdges) {
-			deepSearch(g, we.to_vertex);
+		visited[i] = comp;
+
+		List<WeightedEdge> wedges = g.getEdges(i);
+		for (WeightedEdge we : wedges) {
+			deepSearch(g, we.to_vertex, comp);
 		}
+	}
+
+	private void deepSearch2(Graph g, int i, int comp) {
+
 	}
 
 }

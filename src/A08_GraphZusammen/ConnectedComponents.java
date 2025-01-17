@@ -6,6 +6,7 @@ import A08_GraphZusammen.Graph;
 import A10_DijkstraPQShortestPath.WeightedEdge;
 
 import java.util.List;
+import java.util.Stack;
 
 
 public class ConnectedComponents {
@@ -31,7 +32,7 @@ public class ConnectedComponents {
 				continue;
 
 			counter++;
-			deepSearch(g, i, counter);
+			deepSearch2(g, i, counter);
 		}
 
 		return counter;
@@ -50,7 +51,22 @@ public class ConnectedComponents {
 	}
 
 	private void deepSearch2(Graph g, int i, int comp) {
+		Stack<Integer> stack = new Stack<>();
 
+		stack.push(i); // wurzel am stack ablegen
+
+		while (!stack.isEmpty()){
+			int v = stack.pop();
+
+			if (visited[v] != -1)
+				continue; // achtung bei diesem knoten waren wir schon mal
+
+			visited[v] = comp;
+
+			List<WeightedEdge> edges = g.getEdges(v);
+			for (WeightedEdge we : edges)
+				stack.push(we.to_vertex);
+		}
 	}
 
 }

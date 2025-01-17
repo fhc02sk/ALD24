@@ -85,7 +85,7 @@ public class ZyklenTest {
 		g.addEdge(1, 2);
 		g.addEdge(2, 3);
 		g.addEdge(3, 1);
-		Zyklen z = new Zyklen(g);
+		Zyklen z = new Zyklen(g); // 1, 2, 3, 1
 		assertCycle(g, 4, z.getCycle());
 	}
 
